@@ -55,19 +55,33 @@ const cartAdd = async (req, res) => {
         const totalPrice = parseInt(book.price) * parseInt(quantity);
         console.log("Total Price:", totalPrice, typeof (totalPrice));
         let cart = await Cart.findOne({ userId: userId });
+        console.log("log 1")
         if (!cart) {
+            console.log("log 2")
             cart = new Cart({ userId: userId, items: [], totalPrice: 0 });
+            console.log("log 3")
         }
+        console.log("log 4")
         const existingItemIndex = cart.items.findIndex(item => item.bookId.toString() === bookId);
+        console.log("log 5")
         if (existingItemIndex !== -1) {
+            console.log("log 6")
             cart.items[existingItemIndex].quantity += parseInt(quantity);
+            console.log("log 7")
         } else {
+            console.log("log 8")
             const bookDetails = { bookId: bookId, quantity };
+            console.log("log 9")
             cart.items.push(bookDetails);
+            console.log("log 10")
         }
+        console.log("log 11")
         cart.totalPrice += parseInt(totalPrice);
+        console.log("log 12")
         await cart.save();
+        console.log("log 13")
         res.status(200).json({ message: 'Item added to cart successfully', cart });
+        console.log("log 14")
     } catch (err) {
         console.error("Error:", err);
         res.status(500).json({
